@@ -1,0 +1,175 @@
+{
+  "ispPresets": [
+    { "name": "Oi Velox - Grupo 1 (RS)", "vpi": 1, "vci": 32, "encapsulation": "PPPoE LLC" },
+    { "name": "Oi Velox - Grupo 2 (AC, DF, GO, MS, MT, PR, RO, SC)", "vpi": 0, "vci": 35, "encapsulation": "PPPoE LLC" },
+    { "name": "Oi Velox - Grupo 3 (AL, BA, CE, ES, MA, MG, PA, PB, PE, RJ, RN, SE)", "vpi": 0, "vci": 33, "encapsulation": "PPPoE LLC" },
+    { "name": "Telefônica / Speedy / Vivo (SP)", "vpi": 8, "vci": 35, "encapsulation": "PPPoE LLC" },
+    { "name": "GVT (Nacional)", "vpi": 0, "vci": 35, "encapsulation": "PPPoE LLC" }
+  ],
+  "wdsScanSurvey": [
+    { "ssid": "BT-Link_Home_Principal", "bssid": "C0:4A:00:1E:5A:20", "rssi": "-42 dBm", "channel": 6, "security": "WPA2-PSK" },
+    { "ssid": "Rede_Corporativa_Escritorio", "bssid": "E8:94:F6:A1:3C:90", "rssi": "-68 dBm", "channel": 11, "security": "WPA2-PSK" },
+    { "ssid": "Vizinho_2.4G", "bssid": "00:14:D1:88:FF:10", "rssi": "-85 dBm", "channel": 1, "security": "WPA-PSK" }
+  ],
+  "devices": {
+    "TD-W8961ND": {
+      "name": "TD-W8961ND / TD-W8951ND (Modem ADSL2+ Router)",
+      "type": "adsl",
+      "firmware": "v3.0.0 Build 20231102",
+      "hardware": "TD-W8961ND v3.0",
+      "lan": {
+        "ip": "192.168.1.1",
+        "netmask": "255.255.255.0",
+        "dhcpEnabled": true,
+        "dhcpStart": "192.168.1.100",
+        "dhcpEnd": "192.168.1.199"
+      },
+      "wan": {
+        "type": "PPPoE",
+        "username": "",
+        "password": "",
+        "vpi": 8,
+        "vci": 35,
+        "encapsulation": "PPPoE LLC",
+        "status": "Disconnected",
+        "ip": "0.0.0.0"
+      },
+      "wireless": {
+        "enabled": true,
+        "ssid": "BT-Link_ADSL_W8961",
+        "security": "WPA2-PSK",
+        "encryption": "AES",
+        "psk": "admin12345"
+      },
+      "timeZone": "GMT-03:00"
+    },
+    "TL-R470T": {
+      "name": "TL-R470T+ (Load Balance Broadband Router)",
+      "type": "loadbalance",
+      "firmware": "9.0.0 Build 20240110 Rel.54530",
+      "hardware": "TL-R470T+ v9.0",
+      "lan": {
+        "ip": "192.168.0.1",
+        "netmask": "255.255.255.0",
+        "dhcpEnabled": true,
+        "dhcpStart": "192.168.0.100",
+        "dhcpEnd": "192.168.0.199",
+        "leaseTime": 120
+      },
+      "wanPortsCount": 2,
+      "wans": [
+        { "id": 1, "type": "Dynamic IP", "ip": "189.40.10.15", "gateway": "189.40.10.1", "dns": "8.8.8.8", "status": "Connected", "upstream": 100000, "downstream": 300000 },
+        { "id": 2, "type": "PPPoE", "username": "link2@fibra.com", "password": "linkpassword", "ip": "201.23.45.67", "gateway": "201.23.45.1", "dns": "1.1.1.1", "status": "Connected", "upstream": 50000, "downstream": 150000 },
+        { "id": 3, "type": "Dynamic IP", "ip": "0.0.0.0", "gateway": "0.0.0.0", "dns": "0.0.0.0", "status": "Disabled", "upstream": 1000000, "downstream": 1000000 },
+        { "id": 4, "type": "Static IP", "ip": "0.0.0.0", "gateway": "0.0.0.0", "dns": "0.0.0.0", "status": "Disabled", "upstream": 1000000, "downstream": 1000000 }
+      ],
+      "transmission": {
+        "loadBalancing": {
+          "enabled": true,
+          "appOptimized": true,
+          "bandwidthBased": true
+        },
+        "linkBackup": {
+          "enabled": false,
+          "primaryWan": "WAN1",
+          "backupWan": "WAN2",
+          "mode": "Failover"
+        },
+        "onlineDetection": {
+          "WAN1": { "mode": "Auto", "pingIp": "8.8.8.8", "status": "Online" },
+          "WAN2": { "mode": "Auto", "pingIp": "1.1.1.1", "status": "Online" }
+        },
+        "policyRouting": [
+          { "id": 1, "name": "Web_Surfing", "service": "HTTP", "sourceIp": "192.168.0.10-192.168.0.50", "wan": "WAN1", "status": "Enabled" }
+        ],
+        "virtualServers": [
+          { "id": 1, "name": "Web_Server", "extPort": "80", "intPort": "80", "serverIp": "192.168.0.20", "proto": "TCP", "status": "Enabled" }
+        ],
+        "bandwidthControl": {
+          "enabled": false,
+          "rules": []
+        }
+      },
+      "firewall": {
+        "antiArp": { "enabled": true, "sendGarp": true, "interval": 1000 },
+        "ipMacBinding": [
+          { "ip": "192.168.0.10", "mac": "00-19-56-8A-4C-71", "desc": "Servidor Local", "status": "Enabled" }
+        ],
+        "attackDefense": {
+          "synFlood": true,
+          "udpFlood": true,
+          "icmpFlood": true,
+          "pingOfDeath": true,
+          "blockWanPing": true
+        }
+      },
+      "systemLogs": [
+        { "time": "2026-08-25 19:30:10", "module": "SYSTEM", "level": "INFO", "content": "Router initialized successfully." },
+        { "time": "2026-08-25 19:30:12", "module": "DHCP", "level": "NOTICE", "content": "DHCP server started on 192.168.0.1" },
+        { "time": "2026-08-25 19:30:15", "module": "WAN", "level": "NOTICE", "content": "WAN1 link UP (189.40.10.15)." },
+        { "time": "2026-08-25 19:30:18", "module": "WAN", "level": "NOTICE", "content": "WAN2 PPPoE session established (201.23.45.67)." }
+      ]
+    },
+    "TL-WR841N": {
+      "name": "TL-WR841N / TL-WR841ND (Wireless N Router)",
+      "type": "nrouter",
+      "firmware": "3.16.9 Build 160325 Rel.62500n",
+      "hardware": "TL-WR841N v11 00000000",
+      "operationMode": "Router",
+      "lan": {
+        "ip": "192.168.0.1",
+        "netmask": "255.255.255.0",
+        "mac": "F4-EC-38-B5-D2-45",
+        "dhcpEnabled": true,
+        "dhcpStart": "192.168.0.100",
+        "dhcpEnd": "192.168.0.199",
+        "leaseTime": 120
+      },
+      "wan": {
+        "type": "Dynamic IP",
+        "mac": "F4-EC-38-B5-D2-46",
+        "macCloned": false,
+        "ip": "192.168.1.102",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.1.1",
+        "dns": "192.168.1.1, 8.8.8.8",
+        "status": "Connected"
+      },
+      "wireless": {
+        "enabled": true,
+        "ssid": "BT-Link_WR841N",
+        "channel": "Auto",
+        "channelWidth": "Auto",
+        "mode": "11bgn mixed",
+        "security": "WPA-PSK/WPA2-PSK",
+        "psk": "87654321",
+        "wdsEnabled": false,
+        "wdsSsid": "",
+        "wdsBssid": "",
+        "wdsKey": "",
+        "macFilterEnabled": false,
+        "macFilterMode": "ALLOW",
+        "macFilterList": ["00:1A:2B:3C:4D:5E"]
+      },
+      "guestNetwork": {
+        "enabled": false,
+        "ssid": "BT-Link_GUEST_WR841N",
+        "security": "Disable Security",
+        "psk": "",
+        "allowLanAccess": false
+      },
+      "parentalControl": {
+        "enabled": false,
+        "parentMac": "50-E5-49-C8-E2-7A",
+        "rules": [
+          { "childMac": "00-11-22-33-44-AA", "desc": "Permitir TP-Link", "domain": "www.tp-link.com", "schedule": "Schedule_1", "status": "Enabled" }
+        ]
+      },
+      "usbSharing": {
+        "enabled": false,
+        "deviceName": "Kingston_16GB",
+        "accessMode": "Read/Write"
+      }
+    }
+  }
+}
