@@ -1,15 +1,58 @@
 {
   "ispPresets": [
-    { "name": "Oi Velox - Grupo 1 (RS)", "vpi": 1, "vci": 32, "encapsulation": "PPPoE LLC" },
-    { "name": "Oi Velox - Grupo 2 (AC, DF, GO, MS, MT, PR, RO, SC)", "vpi": 0, "vci": 35, "encapsulation": "PPPoE LLC" },
-    { "name": "Oi Velox - Grupo 3 (AL, BA, CE, ES, MA, MG, PA, PB, PE, RJ, RN, SE)", "vpi": 0, "vci": 33, "encapsulation": "PPPoE LLC" },
-    { "name": "Telefônica / Speedy / Vivo (SP)", "vpi": 8, "vci": 35, "encapsulation": "PPPoE LLC" },
-    { "name": "GVT (Nacional)", "vpi": 0, "vci": 35, "encapsulation": "PPPoE LLC" }
+    {
+      "name": "Oi Velox - Grupo 1 (RS)",
+      "vpi": 1,
+      "vci": 32,
+      "encapsulation": "PPPoE LLC"
+    },
+    {
+      "name": "Oi Velox - Grupo 2 (AC, DF, GO, MS, MT, PR, RO, SC)",
+      "vpi": 0,
+      "vci": 35,
+      "encapsulation": "PPPoE LLC"
+    },
+    {
+      "name": "Oi Velox - Grupo 3 (AL, BA, CE, ES, MA, MG, PA, PB, PE, RJ, RN, SE)",
+      "vpi": 0,
+      "vci": 33,
+      "encapsulation": "PPPoE LLC"
+    },
+    {
+      "name": "Telefônica / Speedy / Vivo (SP)",
+      "vpi": 8,
+      "vci": 35,
+      "encapsulation": "PPPoE LLC"
+    },
+    {
+      "name": "GVT (Nacional)",
+      "vpi": 0,
+      "vci": 35,
+      "encapsulation": "PPPoE LLC"
+    }
   ],
   "wdsScanSurvey": [
-    { "ssid": "BT-Link_Home_Principal", "bssid": "C0:4A:00:1E:5A:20", "rssi": "-42 dBm", "channel": 6, "security": "WPA2-PSK" },
-    { "ssid": "Rede_Corporativa_Escritorio", "bssid": "E8:94:F6:A1:3C:90", "rssi": "-68 dBm", "channel": 11, "security": "WPA2-PSK" },
-    { "ssid": "Vizinho_2.4G", "bssid": "00:14:D1:88:FF:10", "rssi": "-85 dBm", "channel": 1, "security": "WPA-PSK" }
+    {
+      "ssid": "BT-Link_Home_Principal",
+      "bssid": "C0:4A:00:1E:5A:20",
+      "rssi": "-42 dBm",
+      "channel": 6,
+      "security": "WPA2-PSK"
+    },
+    {
+      "ssid": "Rede_Corporativa_Escritorio",
+      "bssid": "E8:94:F6:A1:3C:90",
+      "rssi": "-68 dBm",
+      "channel": 11,
+      "security": "WPA2-PSK"
+    },
+    {
+      "ssid": "Vizinho_2.4G",
+      "bssid": "00:14:D1:88:FF:10",
+      "rssi": "-85 dBm",
+      "channel": 1,
+      "security": "WPA-PSK"
+    }
   ],
   "devices": {
     "TD-W8961ND": {
@@ -58,10 +101,48 @@
       },
       "wanPortsCount": 2,
       "wans": [
-        { "id": 1, "type": "Dynamic IP", "ip": "189.40.10.15", "gateway": "189.40.10.1", "dns": "8.8.8.8", "status": "Connected", "upstream": 100000, "downstream": 300000 },
-        { "id": 2, "type": "PPPoE", "username": "link2@fibra.com", "password": "linkpassword", "ip": "201.23.45.67", "gateway": "201.23.45.1", "dns": "1.1.1.1", "status": "Connected", "upstream": 50000, "downstream": 150000 },
-        { "id": 3, "type": "Dynamic IP", "ip": "0.0.0.0", "gateway": "0.0.0.0", "dns": "0.0.0.0", "status": "Disabled", "upstream": 1000000, "downstream": 1000000 },
-        { "id": 4, "type": "Static IP", "ip": "0.0.0.0", "gateway": "0.0.0.0", "dns": "0.0.0.0", "status": "Disabled", "upstream": 1000000, "downstream": 1000000 }
+        {
+          "id": 1,
+          "type": "Dynamic IP",
+          "ip": "189.40.10.15",
+          "gateway": "189.40.10.1",
+          "dns": "8.8.8.8",
+          "status": "Connected",
+          "upstream": 100000,
+          "downstream": 300000
+        },
+        {
+          "id": 2,
+          "type": "PPPoE",
+          "username": "link2@fibra.com",
+          "password": "linkpassword",
+          "ip": "201.23.45.67",
+          "gateway": "201.23.45.1",
+          "dns": "1.1.1.1",
+          "status": "Connected",
+          "upstream": 50000,
+          "downstream": 150000
+        },
+        {
+          "id": 3,
+          "type": "Dynamic IP",
+          "ip": "0.0.0.0",
+          "gateway": "0.0.0.0",
+          "dns": "0.0.0.0",
+          "status": "Disabled",
+          "upstream": 1000000,
+          "downstream": 1000000
+        },
+        {
+          "id": 4,
+          "type": "Static IP",
+          "ip": "0.0.0.0",
+          "gateway": "0.0.0.0",
+          "dns": "0.0.0.0",
+          "status": "Disabled",
+          "upstream": 1000000,
+          "downstream": 1000000
+        }
       ],
       "transmission": {
         "loadBalancing": {
@@ -76,24 +157,41 @@
           "mode": "Failover"
         },
         "onlineDetection": {
-          "WAN1": { "mode": "Auto", "pingIp": "8.8.8.8", "status": "Online" },
-          "WAN2": { "mode": "Auto", "pingIp": "1.1.1.1", "status": "Online" }
+          "WAN1": {
+            "mode": "Auto",
+            "pingIp": "8.8.8.8",
+            "status": "Online"
+          },
+          "WAN2": {
+            "mode": "Auto",
+            "pingIp": "1.1.1.1",
+            "status": "Online"
+          }
         },
         "policyRouting": [
-          { "id": 1, "name": "Web_Surfing", "service": "HTTP", "sourceIp": "192.168.0.10-192.168.0.50", "wan": "WAN1", "status": "Enabled" }
-        ],
-        "virtualServers": [
-          { "id": 1, "name": "Web_Server", "extPort": "80", "intPort": "80", "serverIp": "192.168.0.20", "proto": "TCP", "status": "Enabled" }
-        ],
-        "bandwidthControl": {
-          "enabled": false,
-          "rules": []
-        }
+          {
+            "id": 1,
+            "name": "Web_Surfing",
+            "service": "HTTP",
+            "sourceIp": "192.168.0.10-192.168.0.50",
+            "wan": "WAN1",
+            "status": "Enabled"
+          }
+        ]
       },
       "firewall": {
-        "antiArp": { "enabled": true, "sendGarp": true, "interval": 1000 },
+        "antiArp": {
+          "enabled": true,
+          "sendGarp": true,
+          "interval": 1000
+        },
         "ipMacBinding": [
-          { "ip": "192.168.0.10", "mac": "00-19-56-8A-4C-71", "desc": "Servidor Local", "status": "Enabled" }
+          {
+            "ip": "192.168.0.10",
+            "mac": "00-19-56-8A-4C-71",
+            "desc": "Servidor Local",
+            "status": "Enabled"
+          }
         ],
         "attackDefense": {
           "synFlood": true,
@@ -104,10 +202,30 @@
         }
       },
       "systemLogs": [
-        { "time": "2026-08-25 19:30:10", "module": "SYSTEM", "level": "INFO", "content": "Router initialized successfully." },
-        { "time": "2026-08-25 19:30:12", "module": "DHCP", "level": "NOTICE", "content": "DHCP server started on 192.168.0.1" },
-        { "time": "2026-08-25 19:30:15", "module": "WAN", "level": "NOTICE", "content": "WAN1 link UP (189.40.10.15)." },
-        { "time": "2026-08-25 19:30:18", "module": "WAN", "level": "NOTICE", "content": "WAN2 PPPoE session established (201.23.45.67)." }
+        {
+          "time": "2026-08-25 19:30:10",
+          "module": "SYSTEM",
+          "level": "INFO",
+          "content": "Router initialized successfully."
+        },
+        {
+          "time": "2026-08-25 19:30:12",
+          "module": "DHCP",
+          "level": "NOTICE",
+          "content": "DHCP server started on 192.168.0.1"
+        },
+        {
+          "time": "2026-08-25 19:30:15",
+          "module": "WAN",
+          "level": "NOTICE",
+          "content": "WAN1 link UP (189.40.10.15)."
+        },
+        {
+          "time": "2026-08-25 19:30:18",
+          "module": "WAN",
+          "level": "NOTICE",
+          "content": "WAN2 PPPoE session established (201.23.45.67)."
+        }
       ]
     },
     "TL-WR841N": {
@@ -147,9 +265,32 @@
         "wdsSsid": "",
         "wdsBssid": "",
         "wdsKey": "",
-        "macFilterEnabled": false,
-        "macFilterMode": "ALLOW",
-        "macFilterList": ["00:1A:2B:3C:4D:5E"]
+        "macFilter": {
+          "enabled": false,
+          "rule": "ALLOW",
+          "list": [
+            {
+              "mac": "00-1A-2B-3C-4D-5E",
+              "desc": "Notebook Aluno",
+              "status": "Enabled"
+            }
+          ]
+        }
+      },
+      "forwarding": {
+        "virtualServers": [
+          {
+            "extPort": "80",
+            "intPort": "80",
+            "serverIp": "192.168.0.100",
+            "proto": "TCP",
+            "status": "Enabled"
+          }
+        ],
+        "dmz": {
+          "enabled": false,
+          "ip": "0.0.0.0"
+        }
       },
       "guestNetwork": {
         "enabled": false,
@@ -162,13 +303,389 @@
         "enabled": false,
         "parentMac": "50-E5-49-C8-E2-7A",
         "rules": [
-          { "childMac": "00-11-22-33-44-AA", "desc": "Permitir TP-Link", "domain": "www.tp-link.com", "schedule": "Schedule_1", "status": "Enabled" }
+          {
+            "childMac": "00-11-22-33-44-AA",
+            "desc": "Permitir TP-Link",
+            "domain": "www.tp-link.com",
+            "schedule": "Schedule_1",
+            "status": "Enabled"
+          }
         ]
       },
-      "usbSharing": {
+      "bandwidthControl": {
         "enabled": false,
-        "deviceName": "Kingston_16GB",
-        "accessMode": "Read/Write"
+        "egress": 1024,
+        "ingress": 10240,
+        "rules": []
+      }
+    },
+    "TL-WA850RE": {
+      "name": "TL-WA850RE 300Mbps Universal Wi-Fi Range Extender",
+      "type": "extender",
+      "hardware": "TL-WA850RE v7.0",
+      "firmware": "1.0.0 Build 20260401 Rel.41200",
+      "mode": "RangeExtender",
+      "lan": {
+        "ip": "192.168.0.254",
+        "netmask": "255.255.255.0",
+        "dhcpServer": "Auto"
+      },
+      "uplink": {
+        "connected": false,
+        "ssid": "",
+        "bssid": "",
+        "signalPercent": 0,
+        "channel": 0
+      },
+      "extendedWireless": {
+        "copyRootSsid": true,
+        "ssid": "TP-LINK_EXT",
+        "key": ""
+      }
+    },
+    "TL-SG3210": {
+      "name": "TL-SG3210 8-Port Gigabit L2 Managed Switch",
+      "type": "switch",
+      "hardware": "TL-SG3210 v2.0",
+      "firmware": "2.0.0 Build 20260315 Rel.50200",
+      "ip": "192.168.0.2",
+      "netmask": "255.255.255.0",
+      "gateway": "192.168.0.1",
+      "portsCount": 8,
+      "ports": [
+        {
+          "id": 1,
+          "status": "Up",
+          "speed": "1000M",
+          "duplex": "Full",
+          "pvid": 1
+        },
+        {
+          "id": 2,
+          "status": "Up",
+          "speed": "1000M",
+          "duplex": "Full",
+          "pvid": 1
+        },
+        {
+          "id": 3,
+          "status": "Up",
+          "speed": "1000M",
+          "duplex": "Full",
+          "pvid": 10
+        },
+        {
+          "id": 4,
+          "status": "Down",
+          "speed": "Auto",
+          "duplex": "Auto",
+          "pvid": 10
+        },
+        {
+          "id": 5,
+          "status": "Up",
+          "speed": "100M",
+          "duplex": "Full",
+          "pvid": 20
+        },
+        {
+          "id": 6,
+          "status": "Down",
+          "speed": "Auto",
+          "duplex": "Auto",
+          "pvid": 20
+        },
+        {
+          "id": 7,
+          "status": "Down",
+          "speed": "Auto",
+          "duplex": "Auto",
+          "pvid": 1
+        },
+        {
+          "id": 8,
+          "status": "Up",
+          "speed": "1000M",
+          "duplex": "Full",
+          "pvid": 1
+        }
+      ],
+      "vlans": [
+        {
+          "vid": 1,
+          "name": "Default_VLAN",
+          "tagged": [],
+          "untagged": [
+            1,
+            2,
+            7,
+            8
+          ]
+        },
+        {
+          "vid": 10,
+          "name": "Administracao",
+          "tagged": [
+            8
+          ],
+          "untagged": [
+            3,
+            4
+          ]
+        },
+        {
+          "vid": 20,
+          "name": "Alunos_Lab",
+          "tagged": [
+            8
+          ],
+          "untagged": [
+            5,
+            6
+          ]
+        }
+      ],
+      "macTable": [
+        {
+          "mac": "00-1A-2B-3C-4D-01",
+          "vid": 1,
+          "port": 1,
+          "type": "Dynamic"
+        },
+        {
+          "mac": "00-1A-2B-3C-4D-02",
+          "vid": 1,
+          "port": 2,
+          "type": "Dynamic"
+        },
+        {
+          "mac": "F4-EC-38-11-22-33",
+          "vid": 10,
+          "port": 3,
+          "type": "Dynamic"
+        },
+        {
+          "mac": "C0-4A-00-55-66-77",
+          "vid": 20,
+          "port": 5,
+          "type": "Dynamic"
+        }
+      ],
+      "portMirroring": {
+        "enabled": false,
+        "monitorPort": 8,
+        "mirrorPort": 1,
+        "mode": "Both"
+      }
+    },
+    "EAP225": {
+      "name": "EAP225 AC1350 Wireless MU-MIMO Gigabit Ceiling Mount AP",
+      "type": "accesspoint",
+      "hardware": "EAP225 v3.0",
+      "firmware": "5.0.3 Build 20260115 Rel.61220",
+      "lan": {
+        "ip": "192.168.0.3",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.0.1",
+        "vlanManagement": 1,
+        "poeStatus": "Active (802.3af PoE)"
+      },
+      "radios": {
+        "w24g": {
+          "enabled": true,
+          "channel": 6,
+          "width": "20MHz",
+          "power": "High (24dBm)"
+        },
+        "w5g": {
+          "enabled": true,
+          "channel": 36,
+          "width": "80MHz",
+          "power": "High (22dBm)"
+        }
+      },
+      "ssids": [
+        {
+          "id": 1,
+          "ssid": "Empresa_Admin",
+          "band": "Dual",
+          "vid": 10,
+          "security": "WPA2-PSK",
+          "key": "admin_corp_pass",
+          "clientIsolation": false,
+          "portal": false
+        },
+        {
+          "id": 2,
+          "ssid": "Laboratorio_Alunos",
+          "band": "Dual",
+          "vid": 20,
+          "security": "WPA2-PSK",
+          "key": "alunos_pass",
+          "clientIsolation": true,
+          "portal": false
+        },
+        {
+          "id": 3,
+          "ssid": "Visitantes_Hotspot",
+          "band": "2.4GHz",
+          "vid": 30,
+          "security": "None",
+          "key": "",
+          "clientIsolation": true,
+          "portal": true
+        }
+      ],
+      "portalCaptive": {
+        "enabled": true,
+        "authType": "Voucher",
+        "vouchers": [
+          {
+            "code": "LAB-2026-X1",
+            "durationMinutes": 120,
+            "status": "Valid"
+          },
+          {
+            "code": "LAB-2026-X2",
+            "durationMinutes": 60,
+            "status": "Used"
+          }
+        ]
+      }
+    },
+    "TX-6610": {
+      "name": "TX-6610 1-Port Gigabit GPON Terminal (Optical ONT)",
+      "type": "gpon",
+      "hardware": "TX-6610 v4.0",
+      "firmware": "1.0.2 Build 20260220 Rel.32110",
+      "lan": {
+        "ip": "192.168.1.1",
+        "netmask": "255.255.255.0",
+        "portSpeed": "1000Mbps Full Duplex",
+        "portStatus": "Up"
+      },
+      "gpon": {
+        "status": "O5 (Operational)",
+        "gponSn": "TPLG4A1E5A20",
+        "ploamPassword": "",
+        "rxPowerDbm": -21.45,
+        "txPowerDbm": 2.30,
+        "opticalVoltage": 3.28,
+        "biasCurrentMa": 14.2,
+        "laserTempC": 38.5,
+        "oltVendor": "HUAWEI_OLT_MA5608T",
+        "distanceMeters": 3420
+      },
+      "wan": {
+        "mode": "Bridge",
+        "vlanTagging": true,
+        "serviceVlan": 100,
+        "priority": 0
+      }
+    },
+    
+    "Tapo-H100": {
+      "name": "Tapo H100 Smart IoT Hub & Gateway (Sub-1GHz & Matter)",
+      "type": "iotgateway",
+      "hardware": "Tapo H100 v1.0",
+      "firmware": "1.5.8 Build 20260410 Rel.3110",
+      "network": {
+        "connectionType": "Wi-Fi (2.4GHz)",
+        "uplinkSsid": "BT-Link_Home_Principal",
+        "ip": "192.168.0.150",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.0.1",
+        "dns": "192.168.0.1",
+        "mac": "54-AF-97-22-3A-81",
+        "signalRssi": "-52 dBm",
+        "cloudStatus": "Connected"
+      },
+      "hubHardware": {
+        "sirenVolume": "High",
+        "sirenRingtone": "Alarm_1",
+        "sirenActive": false,
+        "rfFrequency": "868 / 922 MHz (Sub-1GHz Low Power)"
+      },
+      "subDevices": [
+        {
+          "id": "dev_01",
+          "name": "Tomada Inteligente Sala",
+          "model": "Tapo P110",
+          "category": "Plug / Relay",
+          "powerType": "AC Powered (Mesh Router)",
+          "signal": "Strong (-48 dBm)",
+          "battery": "N/A (Tomada)",
+          "state": {
+            "power": true,
+            "currentWatts": 45.2
+          }
+        },
+        {
+          "id": "dev_02",
+          "name": "Sensor de Abertura Porta Principal",
+          "model": "Tapo T110",
+          "category": "Door / Window Sensor",
+          "powerType": "Battery (Sleepy End Device)",
+          "signal": "Good (-64 dBm)",
+          "battery": "94% (CR2032)",
+          "state": {
+            "open": false
+          }
+        },
+        {
+          "id": "dev_03",
+          "name": "Sensor de Movimento Corredor",
+          "model": "Tapo T100",
+          "category": "Motion Sensor",
+          "powerType": "Battery (Sleepy End Device)",
+          "signal": "Good (-68 dBm)",
+          "battery": "87% (CR2450)",
+          "state": {
+            "motion": false
+          }
+        },
+        {
+          "id": "dev_04",
+          "name": "Sensor de Temperatura e Umidade Quarto",
+          "model": "Tapo T315",
+          "category": "Climate Sensor",
+          "powerType": "Battery (Sleepy End Device)",
+          "signal": "Excellent (-42 dBm)",
+          "battery": "98% (AAA)",
+          "state": {
+            "temperature": 23.4,
+            "humidity": 58
+          }
+        }
+      ],
+      "automations": [
+        {
+          "id": 1,
+          "name": "Alarme Noturno de Intrusão",
+          "enabled": true,
+          "triggerDevice": "dev_02",
+          "condition": "open == true",
+          "actionTarget": "hub_siren",
+          "actionValue": "start_alarm"
+        },
+        {
+          "id": 2,
+          "name": "Iluminação Automática por Presença",
+          "enabled": true,
+          "triggerDevice": "dev_03",
+          "condition": "motion == true",
+          "actionTarget": "dev_01",
+          "actionValue": "turn_on"
+        }
+      ],
+      "matter": {
+        "enabled": true,
+        "pairingCode": "3491-820-1123",
+        "fabricCount": 2,
+        "fabrics": [
+          "Apple Home",
+          "Home Assistant Local"
+        ]
       }
     }
   }

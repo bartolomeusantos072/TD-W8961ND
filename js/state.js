@@ -57,13 +57,23 @@ export function setDeviceData(updatedDeviceData) {
 function resolveTargetDevice() {
   const urlParams = new URLSearchParams(window.location.search);
   const host = window.location.hostname.toLowerCase();
+  const paramDevice = urlParams.get('device');
 
-  let target = urlParams.get('device') || CONFIG.defaultDevice;
-  if (host.includes('adsl')) target = 'TD-W8961ND';
-  if (host.includes('loadbalance')) target = 'TL-R470T';
-  if (host.includes('roteador') || host.includes('wr841')) target = 'TL-WR841N';
-  if (host.includes('switch') || urlParams.get('device') === 'TL-SG3210') target = 'TL-SG3210';
-  return target;
+  // 1. Se veio explicitamente pelo parâmetro ?device= na URL, prioriza diretamente
+  if (paramDevice) {
+    return paramDevice;
+  }
+
+  // 2. Mapeamento por hostname/subdomínio
+  if (host.includes('adsl') || host.includes('w8961')) return 'TD-W8961ND';
+  if (host.includes('loadbalance') || host.includes('r470')) return 'TL-R470T';
+  if (host.includes('roteador') || host.includes('wr841')) return 'TL-WR841N';
+  if (host.includes('switch') || host.includes('sg3210')) return 'TL-SG3210';
+  if (host.includes('repetidor') || host.includes('wa850')) return 'TL-WA850RE';
+  if (host.includes('ap') || host.includes('eap')) return 'EAP225';
+  if (host.includes('gpon') || host.includes('fibra') || host.includes('tx6610')) return 'TX-6610';
+  if (host.includes('iot') || host.includes('tapo') || host.includes('h100')) return 'Tapo-H100';
+  return CONFIG.defaultDevice;
 }
 
 /**
