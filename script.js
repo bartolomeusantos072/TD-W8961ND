@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function initData() {
   const urlParams = new URLSearchParams(window.location.search);
   const host = window.location.hostname.toLowerCase();
-  
+
   let target = urlParams.get('device') || CONFIG.defaultDevice;
   if (host.includes('adsl')) target = 'TD-W8961ND';
   if (host.includes('loadbalance')) target = 'TL-R470T';
@@ -340,7 +340,7 @@ function renderContentSection() {
           <td><strong style="color: ${w.status === 'Connected' || w.status === 'Conectado' ? '#008800' : '#888'};">${w.status === 'Connected' ? 'Conectado' : w.status}</strong></td>
           <td>${w.ip}</td>
           <td>${w.gateway}</td>
-          <td>${(w.upstream/1000).toFixed(0)}k / ${(w.downstream/1000).toFixed(0)}k</td>
+          <td>${(w.upstream / 1000).toFixed(0)}k / ${(w.downstream / 1000).toFixed(0)}k</td>
         </tr>
       `).join('');
 
@@ -1001,7 +1001,7 @@ function renderContentSection() {
 // 5. MODAL DE SURVEY (VARREDURA WI-FI)
 // =============================================================================
 
-window.openSurveyModal = function() {
+window.openSurveyModal = function () {
   let modal = document.getElementById('surveyModal');
   if (!modal) {
     modal = document.createElement('div');
@@ -1054,7 +1054,7 @@ window.openSurveyModal = function() {
   modal.style.display = 'flex';
 };
 
-window.selectSurveyFromModal = function(idx) {
+window.selectSurveyFromModal = function (idx) {
   const net = appState.wdsSurvey[idx];
   const ssidInput = document.getElementById('wdsSsid');
   const bssidInput = document.getElementById('wdsBssid');
@@ -1067,7 +1067,7 @@ window.selectSurveyFromModal = function(idx) {
   document.getElementById('surveyModal').style.display = 'none';
 };
 
-window.toggleWdsFields = function(checked) {
+window.toggleWdsFields = function (checked) {
   const c = document.getElementById('wdsFieldsContainer');
   if (c) c.style.display = checked ? 'block' : 'none';
 };
@@ -1132,7 +1132,7 @@ function renderSecSubFields(mode) {
   }
 }
 
-window.saveWrWirelessAndWds = function() {
+window.saveWrWirelessAndWds = function () {
   const w = appState.deviceData.wireless;
   w.ssid = document.getElementById('wrSsid').value;
   w.mode = document.getElementById('wrMode').value;
@@ -1154,7 +1154,7 @@ window.saveWrWirelessAndWds = function() {
   });
 };
 
-window.saveAdvancedSecurity = function() {
+window.saveAdvancedSecurity = function () {
   const w = appState.deviceData.wireless;
   const sec = document.getElementById('wrSecSelect').value;
   w.security = sec;
@@ -1168,7 +1168,7 @@ window.saveAdvancedSecurity = function() {
   });
 };
 
-window.toggleMacFilterGlobal = function() {
+window.toggleMacFilterGlobal = function () {
   if (!appState.deviceData.wireless.macFilter) {
     appState.deviceData.wireless.macFilter = { enabled: false, rule: 'ALLOW', list: [] };
   }
@@ -1177,7 +1177,7 @@ window.toggleMacFilterGlobal = function() {
   renderInterface();
 };
 
-window.addMacFilterEntry = function() {
+window.addMacFilterEntry = function () {
   const mac = document.getElementById('newFilterMac').value.trim().toUpperCase();
   const desc = document.getElementById('newFilterDesc').value.trim();
 
@@ -1193,13 +1193,13 @@ window.addMacFilterEntry = function() {
   renderInterface();
 };
 
-window.deleteMacFilterEntry = function(idx) {
+window.deleteMacFilterEntry = function (idx) {
   appState.deviceData.wireless.macFilter.list.splice(idx, 1);
   saveState();
   renderInterface();
 };
 
-window.addVirtualServer = function() {
+window.addVirtualServer = function () {
   const ext = document.getElementById('vsExt').value.trim();
   const intP = document.getElementById('vsInt').value.trim();
   const ip = document.getElementById('vsIp').value.trim();
@@ -1215,13 +1215,13 @@ window.addVirtualServer = function() {
   renderInterface();
 };
 
-window.deleteVirtualServer = function(idx) {
+window.deleteVirtualServer = function (idx) {
   appState.deviceData.forwarding.virtualServers.splice(idx, 1);
   saveState();
   renderInterface();
 };
 
-window.saveDmzConfig = function() {
+window.saveDmzConfig = function () {
   if (!appState.deviceData.forwarding) appState.deviceData.forwarding = { virtualServers: [], dmz: { enabled: false, ip: '0.0.0.0' } };
   const dmz = appState.deviceData.forwarding.dmz;
   dmz.enabled = document.getElementById('dmzEn').checked;
@@ -1232,7 +1232,7 @@ window.saveDmzConfig = function() {
   });
 };
 
-window.saveQosSettings = function() {
+window.saveQosSettings = function () {
   if (!appState.deviceData.bandwidthControl) appState.deviceData.bandwidthControl = { enabled: false, egress: 1024, ingress: 10240, rules: [] };
   const qos = appState.deviceData.bandwidthControl;
   qos.enabled = document.getElementById('chkQosEn').checked;
@@ -1244,7 +1244,7 @@ window.saveQosSettings = function() {
   });
 };
 
-window.toggleWrWanFields = function(val) {
+window.toggleWrWanFields = function (val) {
   const ip = document.getElementById('wrWanIp');
   const mask = document.getElementById('wrWanMask');
   const gw = document.getElementById('wrWanGw');
@@ -1254,7 +1254,7 @@ window.toggleWrWanFields = function(val) {
   if (gw) gw.disabled = !isStatic;
 };
 
-window.saveWrWanConfig = function() {
+window.saveWrWanConfig = function () {
   const d = appState.deviceData;
   d.wan.type = document.getElementById('wrWanType').value;
   d.wan.ip = document.getElementById('wrWanIp').value;
@@ -1267,15 +1267,15 @@ window.saveWrWanConfig = function() {
   });
 };
 
-window.clonePcMac = function() {
+window.clonePcMac = function () {
   document.getElementById('wrWanMac').value = '6C-62-6D-F7-2E-82';
 };
 
-window.restoreFactoryMac = function() {
+window.restoreFactoryMac = function () {
   document.getElementById('wrWanMac').value = 'F4-EC-38-B5-D2-46';
 };
 
-window.saveMacClone = function() {
+window.saveMacClone = function () {
   appState.deviceData.wan.mac = document.getElementById('wrWanMac').value.trim().toUpperCase();
   triggerReboot('Atualizando endereço MAC da WAN...', () => {
     saveState();
@@ -1283,7 +1283,7 @@ window.saveMacClone = function() {
   });
 };
 
-window.saveGuestConfig = function() {
+window.saveGuestConfig = function () {
   if (!appState.deviceData.guestNetwork) appState.deviceData.guestNetwork = { enabled: false, ssid: 'TP-LINK_GUEST', allowLanAccess: false };
   const gn = appState.deviceData.guestNetwork;
   gn.enabled = document.getElementById('chkGuestEnable').checked;
@@ -1295,7 +1295,7 @@ window.saveGuestConfig = function() {
   });
 };
 
-window.addParentalRule = function() {
+window.addParentalRule = function () {
   const mac = document.getElementById('childMacInput').value.trim().toUpperCase();
   const desc = document.getElementById('childDescInput').value.trim();
   const domain = document.getElementById('childDomainInput').value.trim();
@@ -1310,13 +1310,13 @@ window.addParentalRule = function() {
   renderInterface();
 };
 
-window.deleteParentalRule = function(idx) {
+window.deleteParentalRule = function (idx) {
   appState.deviceData.parentalControl.rules.splice(idx, 1);
   saveState();
   renderInterface();
 };
 
-window.saveFullWanConfig = function() {
+window.saveFullWanConfig = function () {
   const d = appState.deviceData;
   const count = parseInt(document.getElementById('selWanCount').value, 10);
   d.wanPortsCount = count;
@@ -1354,7 +1354,7 @@ window.saveFullWanConfig = function() {
   });
 };
 
-window.saveLbSettings = function() {
+window.saveLbSettings = function () {
   const lb = appState.deviceData.transmission.loadBalancing;
   lb.enabled = document.getElementById('chkLbEnable').checked;
   lb.appOptimized = document.getElementById('chkAppOpt').checked;
@@ -1365,7 +1365,7 @@ window.saveLbSettings = function() {
   });
 };
 
-window.saveLinkBackup = function() {
+window.saveLinkBackup = function () {
   const bk = appState.deviceData.transmission.linkBackup;
   bk.enabled = document.getElementById('chkBackupEnable').checked;
   bk.primaryWan = document.getElementById('selPrimaryWan').value;
@@ -1376,7 +1376,7 @@ window.saveLinkBackup = function() {
   });
 };
 
-window.addPolicyRoute = function() {
+window.addPolicyRoute = function () {
   const name = document.getElementById('polName').value.trim();
   const service = document.getElementById('polService').value;
   const src = document.getElementById('polSrc').value.trim();
@@ -1392,13 +1392,13 @@ window.addPolicyRoute = function() {
   renderInterface();
 };
 
-window.deletePolicyRoute = function(idx) {
+window.deletePolicyRoute = function (idx) {
   appState.deviceData.transmission.policyRouting.splice(idx, 1);
   saveState();
   renderInterface();
 };
 
-window.addArpBinding = function() {
+window.addArpBinding = function () {
   const ip = document.getElementById('bindIp').value.trim();
   const mac = document.getElementById('bindMac').value.trim().toUpperCase();
   const desc = document.getElementById('bindDesc').value.trim();
@@ -1412,13 +1412,13 @@ window.addArpBinding = function() {
   renderInterface();
 };
 
-window.deleteArpBind = function(idx) {
+window.deleteArpBind = function (idx) {
   appState.deviceData.firewall.ipMacBinding.splice(idx, 1);
   saveState();
   renderInterface();
 };
 
-window.runDiagnostics = function() {
+window.runDiagnostics = function () {
   const tool = document.getElementById('diagTool').value;
   const target = document.getElementById('diagTarget').value.trim();
   const iface = document.getElementById('diagIface').value;
@@ -1441,13 +1441,13 @@ window.runDiagnostics = function() {
   }, 400);
 };
 
-window.clearLogs = function() {
+window.clearLogs = function () {
   appState.deviceData.systemLogs = [];
   saveState();
   renderInterface();
 };
 
-window.saveLanConfig = function() {
+window.saveLanConfig = function () {
   appState.deviceData.lan.ip = document.getElementById('inputLanIp').value;
   appState.deviceData.lan.netmask = document.getElementById('inputLanMask').value;
   appState.deviceData.lan.dhcpEnabled = document.getElementById('selectDhcp').value === 'true';
@@ -1479,7 +1479,7 @@ function renderWizard(container) {
       <button class="btn-tplink" onclick="appState.quickStep=2; renderContentSection();">PRÓXIMO</button>
     `;
   } else if (step === 2) {
-    let presetOptions = `<option value="">-- Selecione uma Região/Operadora --</option>` + 
+    let presetOptions = `<option value="">-- Selecione uma Região/Operadora --</option>` +
       appState.ispPresets.map((p, idx) => `<option value="${idx}">${p.name}</option>`).join('');
 
     const curVpi = wizardTempData.vpi !== undefined ? wizardTempData.vpi : (appState.deviceData.wan.vpi || '0');
@@ -1493,7 +1493,7 @@ function renderWizard(container) {
         <select id="wzPreset" onchange="applyWizardPreset(this.value)">${presetOptions}</select>
 
         <label>Tipo de Conexão WAN:</label>
-        <select id="wzWanType">
+        <select id="wzWanType" onchange="updateWizardWanFields(this.value)">
           <option value="PPPoE" selected>PPPoE / PPPoA (Usuário e Senha)</option>
           <option value="Dynamic">IP Dinâmico (DHCP)</option>
           <option value="Static">IP Estático</option>
@@ -1538,19 +1538,78 @@ function renderWizard(container) {
   }
   container.innerHTML = html;
 }
+window.updateWizardWanFields = function(type) {
+  const container = document.getElementById('wzPppoeFields');
+  if (!container) return;
 
-window.goToWizardStep3 = function() {
+  const curVpi = wizardTempData.vpi !== undefined ? wizardTempData.vpi : (appState.deviceData.wan.vpi || '0');
+  const curVci = wizardTempData.vci !== undefined ? wizardTempData.vci : (appState.deviceData.wan.vci || '33');
+
+  if (type === 'PPPoE') {
+    container.innerHTML = `
+      <label>Nome de Usuário:</label>
+      <input type="text" id="wzUser" placeholder="Ex: cliente@provedor.com.br" value="${wizardTempData.username || ''}">
+
+      <label>Senha:</label>
+      <input type="password" id="wzPass" placeholder="Senha do provedor" value="${wizardTempData.password || ''}">
+
+      <label>Circuito ATM (VPI/VCI):</label>
+      <div>
+        <input type="text" id="wzVpi" placeholder="VPI" value="${curVpi}" style="width:50px;"> /
+        <input type="text" id="wzVci" placeholder="VCI" value="${curVci}" style="width:50px;">
+      </div>
+    `;
+  } else if (type === 'Dynamic') {
+    container.innerHTML = `
+      <label>Circuito ATM (VPI/VCI):</label>
+      <div>
+        <input type="text" id="wzVpi" placeholder="VPI" value="${curVpi}" style="width:50px;"> /
+        <input type="text" id="wzVci" placeholder="VCI" value="${curVci}" style="width:50px;">
+      </div>
+      <p style="font-size:11px; color:#666; margin-top:5px;">O roteador obterá o endereço IP automaticamente do provedor via DHCP.</p>
+    `;
+  } else if (type === 'Static') {
+    container.innerHTML = `
+      <label>Endereço IP Fixo:</label>
+      <input type="text" id="wzStaticIp" placeholder="Ex: 200.100.50.10" value="${wizardTempData.ip || ''}">
+
+      <label>Máscara de Sub-rede:</label>
+      <input type="text" id="wzStaticMask" placeholder="255.255.255.0" value="${wizardTempData.netmask || '255.255.255.0'}">
+
+      <label>Gateway Padrão:</label>
+      <input type="text" id="wzStaticGw" placeholder="Ex: 200.100.50.1" value="${wizardTempData.gateway || ''}">
+
+      <label>Circuito ATM (VPI/VCI):</label>
+      <div>
+        <input type="text" id="wzVpi" placeholder="VPI" value="${curVpi}" style="width:50px;"> /
+        <input type="text" id="wzVci" placeholder="VCI" value="${curVci}" style="width:50px;">
+      </div>
+    `;
+  } else if (type === 'Bridge') {
+    container.innerHTML = `
+      <label>Circuito ATM (VPI/VCI):</label>
+      <div>
+        <input type="text" id="wzVpi" placeholder="VPI" value="${curVpi}" style="width:50px;"> /
+        <input type="text" id="wzVci" placeholder="VCI" value="${curVci}" style="width:50px;">
+      </div>
+      <p style="font-size:11px; color:#a00; margin-top:5px;"><strong>Modo Bridge:</strong> O modem funcionará apenas como ponte transparente, repassando o sinal ADSL para discagem em um roteador secundário ou PC.</p>
+    `;
+  }
+};
+
+window.goToWizardStep3 = function () {
   const vpiInput = document.getElementById('wzVpi');
   const vciInput = document.getElementById('wzVci');
   const userInput = document.getElementById('wzUser');
   const passInput = document.getElementById('wzPass');
   const presetSelect = document.getElementById('wzPreset');
-
+  const wanTypeSelect = document.getElementById('wzWanType');
+  if (wanTypeSelect) wizardTempData.wanType = wanTypeSelect.value;
   if (vpiInput) wizardTempData.vpi = parseInt(vpiInput.value, 10);
   if (vciInput) wizardTempData.vci = parseInt(vciInput.value, 10);
   if (userInput) wizardTempData.username = userInput.value.trim();
   if (passInput) wizardTempData.password = passInput.value.trim();
-  
+
   if (presetSelect && presetSelect.value !== "") {
     const presetIndex = parseInt(presetSelect.value, 10);
     const preset = appState.ispPresets[presetIndex];
@@ -1561,12 +1620,12 @@ window.goToWizardStep3 = function() {
   renderContentSection();
 };
 
-window.finishQuickSetup = function() {
+window.finishQuickSetup = function () {
   const vpi = wizardTempData.vpi !== undefined ? wizardTempData.vpi : appState.deviceData.wan.vpi;
   const vci = wizardTempData.vci !== undefined ? wizardTempData.vci : appState.deviceData.wan.vci;
   const user = wizardTempData.username !== undefined ? wizardTempData.username : (appState.deviceData.wan.username || "");
   const pass = wizardTempData.password !== undefined ? wizardTempData.password : (appState.deviceData.wan.password || "");
-
+  appState.deviceData.wan.type = wizardTempData.wanType || "PPPoE";
   appState.deviceData.wan.vpi = vpi;
   appState.deviceData.wan.vci = vci;
   appState.deviceData.wan.username = user;
@@ -1576,7 +1635,7 @@ window.finishQuickSetup = function() {
   const regra = REGRAS_DSLAM[operadoraSelecionada];
 
   const circuitoValido = (regra && regra.vpi === vpi && regra.vci === vci && (regra.aceita === "Nacional" || regra.aceita.includes(UF_AULA))) ||
-                         (UF_AULA === "MG" && vpi === 0 && vci === 33);
+    (UF_AULA === "MG" && vpi === 0 && vci === 33);
 
   const credenciaisPreenchidas = user.trim().length > 0 && pass.trim().length > 0;
 
@@ -1600,7 +1659,7 @@ window.finishQuickSetup = function() {
   });
 };
 
-window.applyWizardPreset = function(idx) {
+window.applyWizardPreset = function (idx) {
   if (idx === '') return;
   const p = appState.ispPresets[idx];
   document.getElementById('wzVpi').value = p.vpi;
@@ -1637,7 +1696,7 @@ function triggerReboot(message, callback) {
   }, 30);
 }
 
-window.blockClientByMac = function(mac, name) {
+window.blockClientByMac = function (mac, name) {
   const d = appState.deviceData;
   const client = (d.dhcpClients || []).find(c => c.mac === mac);
   if (!client) return;
