@@ -1,5 +1,5 @@
 /**
- * BART-LINK Simulator — Vistas de WAN, Multi-WAN, Encaminhamento e Ferramentas
+ * BART-LINK Simulator — Vistas de WAN, Multi-WAN, Transmissão, Firewall e Logs
  */
 
 import { appState, saveState } from '../../state.js';
@@ -7,8 +7,9 @@ import { triggerReboot, runNetworkDiagnostic } from '../../services/networkSim.j
 
 export function renderWanView(tab, titleEl, container, onRefresh) {
   const d = appState.deviceData;
+  if (!d) return;
 
-  // --- LAN & DHCP ---
+  // --- 1. REDE > LAN E DHCP ---
   if (tab === 'network_lan') {
     titleEl.innerText = 'Configurações de Rede Local (LAN) e DHCP';
     container.innerHTML = `
@@ -41,7 +42,7 @@ export function renderWanView(tab, titleEl, container, onRefresh) {
     return;
   }
 
-  // --- WAN ROTEADOR RESIDENCIAL ---
+  // --- 2. REDE > WAN (TL-WR841N) ---
   if (tab === 'wr_wan') {
     titleEl.innerText = 'Configuração da Interface WAN (Internet)';
     container.innerHTML = `
@@ -92,7 +93,7 @@ export function renderWanView(tab, titleEl, container, onRefresh) {
     return;
   }
 
-  // --- MULTI-WAN TL-R470T+ ---
+  // --- 3. REDE > WAN (MULTI-WAN TL-R470T+) ---
   if (tab === 'network_wan' && d.type === 'loadbalance') {
     titleEl.innerText = 'Configuração das Portas WAN';
     const wanConfigs = d.wans.slice(0, d.wanPortsCount).map(w => `
@@ -166,7 +167,223 @@ export function renderWanView(tab, titleEl, container, onRefresh) {
     return;
   }
 
-  // --- DIAGNÓSTICOS (PING & TRACEROUTE) ---
+  // --- 4. TRANSMISSÃO > BALANCEAMENTO (LOAD BALANCE) ---
+  if (tab === 'trans_loadbalance' && d.type === 'loadbalance') {
+    titleEl.innerText = 'Configurações de Balanceamento de Carga';
+    const lb = d.transmission.loadBalancing;
+    container.innerHTML = `
+      <div class="form-grid">
+        <label>Ativar Balanceamento de Carga:</label>
+        <input type="checkbox" id="chkLbEnable" ${lb.enabled ? 'checked' : ''}>
+
+        <label>Roteamento Otimizado por Aplicação:</label>
+        <input type="checkbox" id="chkAppOpt" ${lb.appOptimized ? 'checked' : ''}>
+
+        <label>Balanceamento Baseado na Largura de Banda:</label>
+        <input type="checkbox" id="chkBwBased" ${lb.bandwidthBased ? 'checked' : ''}>
+      </div>
+      <button class="btn-tplink" id="btnSaveLb">SALVAR</button>
+    `;
+
+    container.querySelector('#btnSaveLb').addEventListener('click', () => {
+      lb.enabled = container.querySelector('#chkLbEnable').checked;
+      lb.appOptimized = container.querySelector('#chkAppOpt').checked;
+      lb.bandwidthBased = container.querySelector('#chkBwBased').checked;
+
+      triggerReboot('Salvando regras de Load Balance...', () => {
+        saveState();
+        onRefresh();
+      });
+    });
+    return;
+  }
+
+  // --- 5. TRANSMISSÃO > REDUNDÂNCIA (LINK BACKUP / FAILOVER) ---
+  if (tab === 'trans_linkbackup' && d.type === 'loadbalance') {
+    titleEl.innerText = 'Redundância e Contingência de Links (Failover)';
+    const bk = d.transmission.linkBackup;
+    container.innerHTML = `
+      <div class="form-grid">
+        <label>Habilitar Redundância de Link:</label>
+        <input type="checkbox" id="chkBackupEnable" ${bk.enabled ? 'checked' : ''}>
+
+        <label>Link Principal:</label>
+        <select id="selPrimaryWan">
+          <option value="WAN1" ${bk.primaryWan === 'WAN1' ? 'selected' : ''}>WAN1</option>
+          <option value="WAN2" ${bk.primaryWan === 'WAN2' ? 'selected' : ''}>WAN2</option>
+        </select>
+
+        <label>Link de Backup (Contingência):</label>
+        <select id="selBackupWan">
+          <option value="WAN2" ${bk.backupWan === 'WAN2' ? 'selected' : ''}>WAN2</option>
+          <option value="WAN1" ${bk.backupWan === 'WAN1' ? 'selected' : ''}>WAN1</option>
+        </select>
+      </div>
+      <button class="btn-tplink" id="btnSaveBackup">SALVAR</button>
+    `;
+
+    container.querySelector('#btnSaveBackup').addEventListener('click', () => {
+      bk.enabled = container.querySelector('#chkBackupEnable').checked;
+      bk.primaryWan = container.querySelector('#selPrimaryWan').value;
+      bk.backupWan = container.querySelector('#selBackupWan').value;
+
+      triggerReboot('Salvando redundância de links...', () => {
+        saveState();
+        onRefresh();
+      });
+    });
+    return;
+  }
+
+  // --- 6. TRANSMISSÃO > ROTEAMENTO POR REGRA (POLICY ROUTING) ---
+  if (tab === 'trans_policyroute' && d.type === 'loadbalance') {
+    titleEl.innerText = 'Roteamento Baseado em Políticas';
+    const routeRows = d.transmission.policyRouting.map((r, i) => `
+      <tr>
+        <td>${r.id}</td>
+        <td>${r.name}</td>
+        <td>${r.service}</td>
+        <td>${r.sourceIp}</td>
+        <td><strong>${r.wan}</strong></td>
+        <td><button class="btn-tplink btn-del-route" data-index="${i}">Excluir</button></td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Nome da Regra</th><th>Serviço</th><th>Faixa IP de Origem</th><th>WAN de Saída</th><th>Ação</th></tr></thead>
+        <tbody>${routeRows.length > 0 ? routeRows : '<tr><td colspan="6" style="text-align:center;">Nenhuma regra configurada.</td></tr>'}</tbody>
+      </table>
+
+      <h4 style="color:#004466; margin: 15px 0 8px 0;">Adicionar Rota por Política</h4>
+      <div class="form-grid">
+        <label>Nome da Regra:</label>
+        <input type="text" id="polName" placeholder="Ex: Web_Direto">
+
+        <label>Tipo de Serviço:</label>
+        <select id="polService">
+          <option value="HTTP">HTTP (Porta 80)</option>
+          <option value="HTTPS">HTTPS (Porta 443)</option>
+          <option value="ALL">TODOS os Serviços</option>
+        </select>
+
+        <label>Faixa IP de Origem:</label>
+        <input type="text" id="polSrc" placeholder="Ex: 192.168.0.10-192.168.0.50">
+
+        <label>Forçar Saída pela WAN:</label>
+        <select id="polWan">
+          <option value="WAN1">WAN1</option>
+          <option value="WAN2">WAN2</option>
+        </select>
+      </div>
+      <button class="btn-tplink" id="btnAddPolicy">ADICIONAR REGRA</button>
+    `;
+
+    container.querySelectorAll('.btn-del-route').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        d.transmission.policyRouting.splice(idx, 1);
+        saveState();
+        onRefresh();
+      });
+    });
+
+    container.querySelector('#btnAddPolicy').addEventListener('click', () => {
+      const name = container.querySelector('#polName').value.trim();
+      const service = container.querySelector('#polService').value;
+      const src = container.querySelector('#polSrc').value.trim();
+      const wan = container.querySelector('#polWan').value;
+
+      if (!name || !src) return alert('Preencha o nome e a faixa de IP.');
+
+      d.transmission.policyRouting.push({
+        id: d.transmission.policyRouting.length + 1,
+        name, service, sourceIp: src, wan, status: 'Enabled'
+      });
+      saveState();
+      onRefresh();
+    });
+    return;
+  }
+
+  // --- 7. FIREWALL > DEFESA ANTI-ARP ---
+  if (tab === 'firewall_antiarp' && d.type === 'loadbalance') {
+    titleEl.innerText = 'Proteção Anti-ARP Spoofing e Amarração IP-MAC';
+    const arp = d.firewall.antiArp;
+    const bindRows = d.firewall.ipMacBinding.map((b, i) => `
+      <tr>
+        <td>${b.ip}</td>
+        <td>${b.mac}</td>
+        <td>${b.desc}</td>
+        <td><strong style="color:green;">${b.status === 'Enabled' ? 'Travado' : 'Inativo'}</strong></td>
+        <td><button class="btn-tplink btn-del-bind" data-index="${i}">Excluir</button></td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="form-grid">
+        <label>Ativar Proteção Anti-ARP:</label>
+        <input type="checkbox" id="chkArpDef" ${arp.enabled ? 'checked' : ''}>
+
+        <label>Enviar Pacotes GARP Periódicos:</label>
+        <input type="checkbox" id="chkGarp" ${arp.sendGarp ? 'checked' : ''}>
+      </div>
+
+      <table class="data-table" style="margin-top:15px;">
+        <thead><tr><th>Endereço IP</th><th>Endereço MAC</th><th>Identificação</th><th>Status</th><th>Ação</th></tr></thead>
+        <tbody>${bindRows.length > 0 ? bindRows : '<tr><td colspan="5" style="text-align:center;">Nenhuma amarração cadastrada.</td></tr>'}</tbody>
+      </table>
+
+      <h4 style="color:#004466; margin: 15px 0 8px 0;">Travar Associação IP-MAC</h4>
+      <div class="form-grid">
+        <label>Endereço IP:</label>
+        <input type="text" id="bindIp" placeholder="192.168.0.x">
+
+        <label>Endereço MAC:</label>
+        <input type="text" id="bindMac" placeholder="00-11-22-33-44-55">
+
+        <label>Descrição:</label>
+        <input type="text" id="bindDesc" placeholder="Ex: Servidor_Financeiro">
+      </div>
+      <button class="btn-tplink" id="btnAddArpBind">TRAVAR IP-MAC</button>
+    `;
+
+    container.querySelector('#chkArpDef').addEventListener('change', (e) => {
+      arp.enabled = e.target.checked;
+      saveState();
+    });
+
+    container.querySelector('#chkGarp').addEventListener('change', (e) => {
+      arp.sendGarp = e.target.checked;
+      saveState();
+    });
+
+    container.querySelectorAll('.btn-del-bind').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        d.firewall.ipMacBinding.splice(idx, 1);
+        saveState();
+        onRefresh();
+      });
+    });
+
+    container.querySelector('#btnAddArpBind').addEventListener('click', () => {
+      const ip = container.querySelector('#bindIp').value.trim();
+      const mac = container.querySelector('#bindMac').value.trim().toUpperCase();
+      const desc = container.querySelector('#bindDesc').value.trim();
+
+      if (!ip || !mac) return alert('Preencha o IP e o MAC.');
+
+      d.firewall.ipMacBinding.push({
+        ip, mac, desc: desc || 'Dispositivo', status: 'Enabled'
+      });
+      saveState();
+      onRefresh();
+    });
+    return;
+  }
+
+  // --- 8. FERRAMENTAS > DIAGNÓSTICOS ---
   if (tab === 'diag_tools') {
     titleEl.innerText = 'Diagnósticos de Rede (Ping e Traceroute)';
     container.innerHTML = `
@@ -204,7 +421,34 @@ export function renderWanView(tab, titleEl, container, onRefresh) {
     return;
   }
 
-  // Seção Padrão de aviso para abas em transição
+  // --- 9. FERRAMENTAS > REGISTOS DO SISTEMA (SYSLOG) ---
+  if (tab === 'syslog_view' && d.type === 'loadbalance') {
+    titleEl.innerText = 'Registros de Eventos do Sistema (System Logs)';
+    const logRows = (d.systemLogs || []).map(l => `
+      <tr>
+        <td width="140">${l.time}</td>
+        <td width="70"><strong>${l.module}</strong></td>
+        <td width="70"><span style="color:${l.level === 'NOTICE' ? '#006699' : '#333'}">${l.level}</span></td>
+        <td>${l.content}</td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <table class="data-table" style="font-size:11px;">
+        <thead><tr><th>Horário</th><th>Módulo</th><th>Nível</th><th>Descrição do Evento</th></tr></thead>
+        <tbody>${logRows.length > 0 ? logRows : '<tr><td colspan="4" style="text-align:center;">Nenhum evento registrado.</td></tr>'}</tbody>
+      </table>
+      <button class="btn-tplink" id="btnClearLogs" style="margin-top:10px;">LIMPAR LOGS</button>
+    `;
+
+    container.querySelector('#btnClearLogs').addEventListener('click', () => {
+      d.systemLogs = [];
+      saveState();
+      onRefresh();
+    });
+    return;
+  }
+
   titleEl.innerText = 'Configurações';
-  container.innerHTML = `<p>Configurações gravadas e sincronizadas.</p>`;
+  container.innerHTML = `<p>Selecione uma opção no menu lateral.</p>`;
 }

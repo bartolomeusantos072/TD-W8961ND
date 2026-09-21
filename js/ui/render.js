@@ -9,10 +9,11 @@ import { HELP_DICTIONARY } from '../constants.js';
 // Vistas que encapsulam cada ecrã individual
 import { renderStatusView } from './views/status.js';
 import { renderWizardView } from './views/wizard.js';
+import { renderResidentialView } from './views/residential.js';
 import { renderWirelessView, renderWirelessSecView, renderMacFilterView } from './views/wireless.js';
 import { renderWanView } from './views/wan.js';
 import { triggerReboot } from '../services/networkSim.js';
-
+import { renderSwitchView } from './views/switch.js';
 /**
  * Obtém os itens de menu baseados no tipo do dispositivo atual
  * @param {string} deviceType 
@@ -43,6 +44,16 @@ function getMenuStructure(deviceType) {
     ];
   }
 
+  if (deviceType === 'switch') {
+    return [
+      { id: 'switch_ports', label: 'Painel de Portas & PVID' },
+      { id: 'switch_vlan', label: 'VLAN 802.1Q (Matriz)' },
+      { id: 'switch_mactable', label: 'Tabela MAC (CAM)' },
+      { id: 'switch_simulator', label: 'Laboratório de Quadros L2' },
+      { id: 'diag_tools', label: 'Ferramentas de Rede' },
+      { id: 'maintenance', label: 'Reinicialização' }
+    ];
+  }
   // Padrão: nrouter (TL-WR841N)
   return [
     { id: 'status', label: 'Status' },
@@ -129,6 +140,11 @@ function renderContentSection() {
     return;
   }
 
+  const switchTabs = ['switch_ports', 'switch_vlan', 'switch_mactable', 'switch_simulator'];
+  if (switchTabs.includes(tab)) {
+    renderSwitchView(tab, title, body, renderInterface);
+    return;
+  }
   // 3. Menus Sem Fios (Wireless)
   if (tab === 'wireless') {
     title.innerText = 'Configurações Sem Fio (Wireless)';
@@ -163,6 +179,13 @@ function renderContentSection() {
     return;
   }
 
-  // 5. WAN, Multi-WAN, Rotas e Ferramentas (Delegadas para módulo WAN/Tools)
+  // 5. Menus Exclusivos do Roteador Wi-Fi Residencial (TL-WR841N)
+  const residentialTabs = ['wr_macclone', 'guest', 'forwarding_vserver', 'forwarding_dmz', 'parental', 'bandwidth_control'];
+  if (residentialTabs.includes(tab)) {
+    renderResidentialView(tab, title, body, renderInterface);
+    return;
+  }
+
+  // 6. WAN, Multi-WAN, Rotas e Ferramentas (Delegadas para módulo WAN/Tools)
   renderWanView(tab, title, body, renderInterface);
 }

@@ -62,7 +62,7 @@ function resolveTargetDevice() {
   if (host.includes('adsl')) target = 'TD-W8961ND';
   if (host.includes('loadbalance')) target = 'TL-R470T';
   if (host.includes('roteador') || host.includes('wr841')) target = 'TL-WR841N';
-
+  if (host.includes('switch') || urlParams.get('device') === 'TL-SG3210') target = 'TL-SG3210';
   return target;
 }
 
