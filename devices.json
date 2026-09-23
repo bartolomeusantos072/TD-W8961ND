@@ -583,7 +583,6 @@
         "priority": 0
       }
     },
-    
     "Tapo-H100": {
       "name": "Tapo H100 Smart IoT Hub & Gateway (Sub-1GHz & Matter)",
       "type": "iotgateway",
@@ -685,6 +684,116 @@
         "fabrics": [
           "Apple Home",
           "Home Assistant Local"
+        ]
+      }
+    },
+    "MikroTik-hEX": {
+      "name": "MikroTik RouterBOARD hEX (RB750Gr3)",
+      "type": "mikrotik",
+      "firmware": "RouterOS v7.14.3",
+      "hardware": "RB750Gr3 (MMIPS)",
+      "system": {
+        "identity": "BARTLINK-CORE-01",
+        "cpuLoad": 4,
+        "freeMemory": "218.4 MB",
+        "uptime": "14d 06:22:15"
+      },
+      "interfaces": [
+        {
+          "name": "ether1-WAN",
+          "type": "ether",
+          "mac": "CC:2D:E0:1A:4B:01",
+          "running": true,
+          "comment": "Link ISP Borda"
+        },
+        {
+          "name": "ether2-LAN",
+          "type": "ether",
+          "mac": "CC:2D:E0:1A:4B:02",
+          "running": true,
+          "comment": "Rede Local / Switch Core"
+        },
+        {
+          "name": "ether3",
+          "type": "ether",
+          "mac": "CC:2D:E0:1A:4B:03",
+          "running": false,
+          "comment": ""
+        },
+        {
+          "name": "ether4",
+          "type": "ether",
+          "mac": "CC:2D:E0:1A:4B:04",
+          "running": false,
+          "comment": ""
+        },
+        {
+          "name": "ether5",
+          "type": "ether",
+          "mac": "CC:2D:E0:1A:4B:05",
+          "running": false,
+          "comment": ""
+        }
+      ],
+      "ipAddresses": [
+        {
+          "id": 1,
+          "address": "203.0.113.2/30",
+          "network": "203.0.113.0",
+          "interface": "ether1-WAN"
+        },
+        {
+          "id": 2,
+          "address": "192.168.88.1/24",
+          "network": "192.168.88.0",
+          "interface": "ether2-LAN"
+        }
+      ],
+      "routes": [
+        {
+          "id": 1,
+          "dstAddress": "0.0.0.0/0",
+          "gateway": "203.0.113.1",
+          "distance": 1,
+          "status": "Active, Static"
+        },
+        {
+          "id": 2,
+          "dstAddress": "192.168.88.0/24",
+          "gateway": "ether2-LAN",
+          "distance": 0,
+          "status": "Active, Connect"
+        },
+        {
+          "id": 3,
+          "dstAddress": "203.0.113.0/30",
+          "gateway": "ether1-WAN",
+          "distance": 0,
+          "status": "Active, Connect"
+        }
+      ],
+      "firewallNat": [
+        {
+          "id": 1,
+          "chain": "srcnat",
+          "outInterface": "ether1-WAN",
+          "action": "masquerade",
+          "comment": "NAT Geral da Internet"
+        }
+      ],
+      "pppoeServer": {
+        "enabled": true,
+        "serviceName": "ISP-BARTLINK-PPPOE",
+        "interface": "ether2-LAN",
+        "defaultProfile": "default-encryption",
+        "secrets": [
+          {
+            "user": "cliente_fibra01",
+            "password": "123",
+            "profile": "default",
+            "localAddress": "10.0.0.1",
+            "remoteAddress": "10.0.0.50"
+          }
         ]
       }
     }

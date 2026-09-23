@@ -73,6 +73,9 @@ function resolveTargetDevice() {
   if (host.includes('ap') || host.includes('eap')) return 'EAP225';
   if (host.includes('gpon') || host.includes('fibra') || host.includes('tx6610')) return 'TX-6610';
   if (host.includes('iot') || host.includes('tapo') || host.includes('h100')) return 'Tapo-H100';
+  if (host.includes('mikrotik') || host.includes('routerboard') || host.includes('rb750')) {
+  return 'MikroTik-hEX';
+}
   return CONFIG.defaultDevice;
 }
 

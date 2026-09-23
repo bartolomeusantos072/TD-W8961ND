@@ -18,7 +18,7 @@ import { renderSwitchView } from './views/switch.js';
 import { renderExtenderView } from './views/extender.js';
 import { renderAccessPointView } from './views/ap.js';
 import { renderGponView } from './views/gpon.js';
-
+import { renderMikrotikView } from './views/mikrotik.js';
 /**
  * Estrutura de menus por perfil de equipamento
  */
@@ -75,6 +75,23 @@ const MENU_REGISTRY = {
     { id: 'iot_automations', label: 'Automações Locais (Edge)' },
     { id: 'iot_matter', label: 'Padrão Matter & Bridge' },
     { id: 'maintenance', label: 'Reinicialização' }
+  ],
+  mikrotik: [
+    { id: 'mt_resource', label: 'System > Resources' },
+    { id: 'mt_ip_addresses', label: 'IP > Addresses' },
+    { id: 'mt_ip_routes', label: 'IP > Routes & L3 Engine' },
+    { id: 'mt_firewall_nat', label: 'IP > Firewall (NAT)' },
+    { id: 'mt_ppp_server', label: 'PPP > PPPoE Server' },
+    { id: 'mt_terminal', label: 'New Terminal (CLI)' },
+    { id: 'maintenance', label: 'System > Reboot' }
+  ],
+  pfsense: [
+    { id: 'pf_dashboard', label: 'Status > Dashboard' },
+    { id: 'pf_rules', label: 'Firewall > Rules (Stateful)' },
+    { id: 'pf_pkt_sim', label: 'Diagnostics > Packet Simulator' },
+    { id: 'pf_aliases', label: 'Firewall > Aliases' },
+    { id: 'pf_openvpn', label: 'VPN > OpenVPN' },
+    { id: 'maintenance', label: 'Diagnostics > Reboot' }
   ],
   nrouter: [
     { id: 'status', label: 'Status' },
@@ -167,7 +184,7 @@ export function renderInterface() {
   const d = appState.deviceData;
   if (!d) return;
 
- /* renderDeviceSwitcher();*/
+  /* renderDeviceSwitcher();*/
 
   const modelNameEl = document.getElementById('firmwareModelName');
   const modelSubEl = document.getElementById('firmwareModelSub');
@@ -290,7 +307,17 @@ function renderContentSection() {
     renderMacFilterView(body, renderInterface);
     return;
   }
-
+  const mtTabs = ['mt_resource', 'mt_ip_addresses', 'mt_ip_routes', 'mt_firewall_nat', 'mt_ppp_server', 'mt_terminal'];
+  if (mtTabs.includes(tab)) {
+    renderMikrotikView(tab, title, body, renderInterface);
+    return;
+  }
+  
+  const pfTabs = ['pf_dashboard', 'pf_rules', 'pf_pkt_sim', 'pf_aliases', 'pf_openvpn'];
+  if (pfTabs.includes(tab)) {
+    renderPfsenseView(tab, title, body, renderInterface);
+    return;
+  }
   // 9. Funcionalidades Residenciais (TL-WR841N)
   const residentialTabs = ['wr_macclone', 'guest', 'forwarding_vserver', 'forwarding_dmz', 'parental', 'bandwidth_control'];
   if (residentialTabs.includes(tab)) {
